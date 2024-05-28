@@ -17,7 +17,7 @@ pip install argendolar
 To use the package, you can import the `Argendolar` class and create an instance of it. 
  
 ```python
-from argendolar import Argendolar
+from argendolar import Argendolar, TipoDivisas
 
 # Create an instance of Argendolar
 argendolar = Argendolar()
@@ -86,7 +86,7 @@ chileno = argendolar.get_chileno()
 uruguayo = argendolar.get_uruguayo()
 
 # Get the historical dollar exchange rate for a specific date
-historico = argendolar.get_dolar_historico(tipo: TipoDivisa.MEP, fecha='2022-01-01')
+historico = argendolar.get_dolar_historico(tipo: TipoDivisas.MEP, fecha='2022-01-01')
 
 # Get the complete historical dollar exchange rate since 2011
 historia_completa = argendolar.get_dolar_historia_completa()

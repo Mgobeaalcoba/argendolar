@@ -2,7 +2,7 @@ import requests
 
 import pandas as pd
 
-from tipo_dolares import TipoDivisas
+from .tipo_dolares import TipoDivisas
 
 
 class Argendolar:
