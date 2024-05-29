@@ -5,9 +5,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='argendolar',
-    version='2.2.1',
+    version='3.0.0',
     packages=find_packages(),
-    install_requires=['pandas', 'requests'],
+    install_requires=['pandas', 'requests', 'matplotlib'],
     author='Mariano Gobea Alcoba',
     author_email='gobeamariano@gmail.com',
     description='A package to get the exchange rates of the different types of dollars and others currencies in Argentina.',

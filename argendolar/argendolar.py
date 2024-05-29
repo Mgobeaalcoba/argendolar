@@ -4,6 +4,8 @@ import pandas as pd
 
 from .tipo_dolares import TipoDivisas
 
+import matplotlib.pyplot as plt
+
 
 class Argendolar:
     def __init__(self):
@@ -51,6 +53,29 @@ class Argendolar:
             data = response.json()
             df = pd.DataFrame(data)
             return df
+
+    def get_dolar_chart(self) -> None:
+        """
+        Get a chart with the exchange sales rates for the different types of dollars.
+        :return: None
+        """
+        try:
+            df = self.get_dolar()
+            bars = plt.barh(y=df["nombre"], width=df["venta"], color="gray", mouseover=True)
+
+            plt.xticks(rotation=90)
+            plt.ylabel("Tipos de dolar")
+            plt.xlabel("Precio de venta promedio")
+            plt.title("Precio de venta promedio segun tipo de dolar")
+
+            for bar in bars:
+                width = bar.get_width()
+                plt.text(width, bar.get_y() + bar.get_height() / 2, f'{width:.2f}',
+                         va='center', ha='right')
+
+            plt.show()
+        except Exception as e:
+            raise e
 
     def get_oficial(self) -> pd.DataFrame:
         """
@@ -237,6 +262,26 @@ class Argendolar:
             df = pd.DataFrame(data)
             return df
 
+    def get_dolar_historia_completa_chart(self, tipo: TipoDivisas) -> None:
+        """
+        Get a chart with the complete historical exchange rate since 2011 for a specific type of dollar.
+        :param tipo: The type of dollar to get the complete historical exchange rate for. (TipoDivisas: OFICIAL, BLUE, MEP, MAYORISTA, SOLIDARIO, TURISTA)
+        :return: None
+        """
+        try:
+            df = self.get_dolar_historia_completa(tipo)
+            df["fecha"] = pd.to_datetime(df["fecha"], format="%Y-%m-%d")
+            df.set_index("fecha", inplace=True)
+            plt.plot(df.index, df['compra'], label='Compra')
+            plt.plot(df.index, df['venta'], label='Venta')
+            plt.title(f'Evolución del {df["casa"].unique()[0]} a lo largo del tiempo')
+            plt.xlabel('Fecha')
+            plt.ylabel('Valor de cambio')
+            plt.legend()
+            plt.show()
+        except Exception as e:
+            raise e
+
     def get_inflacion_mensual_historica(self) -> pd.DataFrame:
         """
         Get the historical inflation rate since 2000-01.
@@ -250,6 +295,24 @@ class Argendolar:
             data = response.json()
             df = pd.DataFrame(data)
             return df
+
+    def get_inflacion_mensual_historica_chart(self) -> None:
+        """
+        Get a chart with the historical inflation rate since 2000-01.
+        :return: None
+        """
+        try:
+            df = self.get_inflacion_mensual_historica()
+            df["fecha"] = pd.to_datetime(df["fecha"], format="%Y-%m-%d")
+            df.set_index("fecha", inplace=True)
+            plt.plot(df.index, df['valor'], label='Indice de Inflación Mensual')
+            plt.title('Evolución de la inflación mensual a lo largo del tiempo')
+            plt.xlabel('Fecha')
+            plt.ylabel('Porcentaje de inflación')
+            plt.legend()
+            plt.show()
+        except Exception as e:
+            raise e
 
     def get_inflacion_interanual_historica(self) -> pd.DataFrame:
         """
@@ -265,6 +328,24 @@ class Argendolar:
             df = pd.DataFrame(data)
             return df
 
+    def get_inflacion_interanual_historica_chart(self) -> None:
+        """
+        Get a chart with the historical interannual inflation rate since 2000-01.
+        :return: None
+        """
+        try:
+            df = self.get_inflacion_interanual_historica()
+            df["fecha"] = pd.to_datetime(df["fecha"], format="%Y-%m-%d")
+            df.set_index("fecha", inplace=True)
+            plt.plot(df.index, df['valor'], label='Indice de Inflación Interanual')
+            plt.title('Evolución de la inflación interanual a lo largo del tiempo')
+            plt.xlabel('Fecha')
+            plt.ylabel('Porcentaje de inflación')
+            plt.legend()
+            plt.show()
+        except Exception as e:
+            raise e
+
     def get_indice_uva_historico(self) -> pd.DataFrame:
         """
         Get the historical UVA index since 2016-03.
@@ -279,6 +360,24 @@ class Argendolar:
             df = pd.DataFrame(data)
             return df
 
+    def get_indice_uva_historico_chart(self) -> None:
+        """
+        Get a chart with the historical UVA index since 2016-03.
+        :return: None
+        """
+        try:
+            df = self.get_indice_uva_historico()
+            df["fecha"] = pd.to_datetime(df["fecha"], format="%Y-%m-%d")
+            df.set_index("fecha", inplace=True)
+            plt.plot(df.index, df['valor'], label='Indice UVA')
+            plt.title('Evolución del Indice UVA a lo largo del tiempo')
+            plt.xlabel('Fecha')
+            plt.ylabel('Valor del Indice UVA')
+            plt.legend()
+            plt.show()
+        except Exception as e:
+            raise e
+
     def get_tasa_plazo_fijo_diaria_bancos(self) -> pd.DataFrame:
         """
         Get the currently daily fixed term rate for online placements of $100,000 within 30 days.
@@ -288,13 +387,30 @@ class Argendolar:
             raise Exception("The API is not online.")
         else:
             url = f"{self.historico_url}/v1/finanzas/tasas/plazoFijo"
-            print(url)
             response = requests.get(url)
-            print(response)
-            print(response.json())
             data = response.json()
             df = pd.DataFrame(data)
             return df
+
+    def get_tasa_plazo_fijo_diaria_bancos_chart(self) -> None:
+        """
+        Get a chart with the currently daily fixed term rate for online placements of $100,000 within 30 days.
+        :return: None
+        """
+        try:
+            df = self.get_tasa_plazo_fijo_diaria_bancos()
+            bars = plt.barh(y=df["entidad"], width=df["tnaClientes"] * 100)
+            for bar in bars:
+                width = bar.get_width()
+                plt.text(width, bar.get_y() + bar.get_height() / 2, f'{width:.2f}%',
+                         va='center', ha='right')
+            plt.xticks(rotation=90)
+            plt.xlabel("TNA Clientes (%)")
+            plt.ylabel("Entidad")
+            plt.title("TNA Clientes por Entidad Bancaria")
+            plt.show()
+        except Exception as e:
+            raise e
 
     def get_tasa_promedio_plazo_fijo_historica(self) -> pd.DataFrame:
         """
@@ -309,3 +425,24 @@ class Argendolar:
             data = response.json()
             df = pd.DataFrame(data)
             return df
+
+
+    def get_tasa_promedio_plazo_fijo_historica_chart(self) -> None:
+        """
+        Get a chart with the historical average fixed term rate since 2000-01.
+        :return: None
+        """
+        try:
+            df = self.get_tasa_promedio_plazo_fijo_historica()
+            df["fecha"] = pd.to_datetime(df["fecha"], format="%Y-%m-%d")
+            df.set_index("fecha", inplace=True)
+            plt.plot(df.index, df['valor'], label='TNA Promedio Plazo Fijo')
+            plt.title('Evolución del TNA Promedio Plazo Fijo a lo largo del tiempo')
+            plt.xlabel('Fecha')
+            plt.ylabel('TNA Promedio Plazo Fijo')
+            plt.legend()
+            plt.show()
+        except Exception as e:
+            raise e
+
+
