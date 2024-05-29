@@ -287,10 +287,13 @@ class Argendolar:
         if not self.api_status():
             raise Exception("The API is not online.")
         else:
-            url = f"{self.base_url}/v1/tasas/plazo-fijo"
+            url = f"{self.historico_url}/v1/finanzas/tasas/plazoFijo"
+            print(url)
             response = requests.get(url)
+            print(response)
+            print(response.json())
             data = response.json()
-            df = pd.DataFrame([data])
+            df = pd.DataFrame(data)
             return df
 
     def get_tasa_promedio_plazo_fijo_historica(self) -> pd.DataFrame:
