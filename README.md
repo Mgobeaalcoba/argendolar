@@ -27,6 +27,7 @@ argendolar = Argendolar()
 
 The `Argendolar` class has the following methods:
 
+- `api_status()`: Get the status of the API.
 - `get_dolar()`: Get all the dollars exchange rates: official, blue, mep, ccl, tarjeta, mayorista, etc. 
 - `get_oficial()`: Get the official dollar exchange rate.
 - `get_blue()`: Get the blue dollar exchange rate.
@@ -41,6 +42,15 @@ The `Argendolar` class has the following methods:
 - `get_uruguayo()`: Get the peso uruguayo exchange rate.
 - `get_dolar_historico()`: Get the historical dollar exchange rate for a specific date and Dollar Type (TipoDivisa.OFICIAL, TipoDivisa.BLUE, TipoDivisa.MEP, TipoDivisa.CCL, TipoDivisa.TARJETA, TipoDivisa.MAYORISTA, TipoDivisa.CRIPTO)
 - `get_dolar_historia_completa()`: Get the complete historical dollar exchange rate since 2011.
+- `get_inflacion_mensual_historica()`: Get the monthly historical inflation rate since 2000-01.
+- `get_inflacion_interanual_historica()`: Get the interannual historical inflation rate since 2000-01.
+- `get_indice_uva_historico()`: Get the historical UVA index since 2016-01.
+- `get_tasa_plazo_fijo_diaria_bancos()`: Get the daily fixed term rate for banks.
+- `get_tasa_promedio_plazo_fijo_historica()`: Get the historical average fixed term rate since 2000-01.
+
+All methods initially consult the state of the APIs (`api_status()`) to understand whether or not they can respond to the query. If the API is not active then they return an exception giving visibility to the API crash.
+
+All methods return the data in a Pandas DataFrame format for a quick and easy analysis or visualization.
 
 ## Examples
 
