@@ -21,7 +21,7 @@ class Argendolar:
         url = f"{self.base_url}/v1/estado"
         response = requests.get(url)
         data = response.json()
-        if data["estado"] == "Correcto":
+        if data["estado"] == "Disponible":
             return True
         else:
             return False
