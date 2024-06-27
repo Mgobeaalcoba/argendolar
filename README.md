@@ -1,5 +1,7 @@
 # Argendolar Package
 
+![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FMgobeaalcoba%2Fargendolar&label=Visitors&countColor=%23263759)
+
 ## Description
 
 This package is used to get the exchange rate between the Argentine Peso and the US Dollar and other currencies (Euro, Real, Peso Chileno y Peso Uruguayo). For this, it uses the [Dolar API](https://dolarapi.com) and the [ArgentinaDatos API](https://argentinadatos.com/docs/) and then it converts the obtained data to a Pandas DataFrame for further analysis.
